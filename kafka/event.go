@@ -222,7 +222,9 @@ out:
 			// messages in the produced batch.
 			// Forward delivery reports to per-message's response channel
 			// or to the global Producer.Events channel, or none.
-			rkmessages := make([]*C.rd_kafka_message_t, int(C.rd_kafka_event_message_count(rkev)))
+			msgCount := int(C.rd_kafka_event_message_count(rkev))
+			fmt.Printf("msg count on EVENT_DR: %d\n", msgCount)
+			rkmessages := make([]*C.rd_kafka_message_t, msgCount)
 
 			cnt := int(C.rd_kafka_event_message_array(rkev, (**C.rd_kafka_message_t)(unsafe.Pointer(&rkmessages[0])), C.size_t(len(rkmessages))))
 
